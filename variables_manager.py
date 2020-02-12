@@ -32,6 +32,7 @@ class KeyLabel(tk.Label):
                 column=1, row=self.row+e)
             print(i)
 
+
     # list of all system variables
 cmd = ["env"]
 proc = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
@@ -55,12 +56,12 @@ print(var_dict['PATH'])
 root = tk.Tk()
 root.title("System variables manager")
 root.grid()
-container = ttk.Frame(root)
+container = tk.Frame(root)
 container.configure(width=500)
 canvas = tk.Canvas(container, bg=WHITE_COLOR)
-scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = tk.Frame(canvas, bg=WHITE_COLOR)
-scrollable_frame.grid()
+scrollable_frame.grid(sticky="NSWE")
 
 scrollable_frame.bind(
     "<Configure>",
@@ -81,8 +82,21 @@ for e, i in enumerate(var_dict.keys()):
     label = KeyLabel(i, e, scrollable_frame, text=i, bg=WHITE_COLOR)
     label.grid(row=e, column=0)
 
-container.grid(sticky="S")
-canvas.grid()
-scrollbar.grid(row=0, column=1, sticky="NSW")
+container.grid(sticky="NSWE")
+canvas.grid(sticky="NSWE")
+
+# Buttons
+buttonFrame = tk.Frame(container)
+buttonFrame.grid(row=0, column=1)
+
+add = tk.Button(buttonFrame, text="Add")
+add.grid(row=0, sticky="N")
+
+remove = tk.Button(buttonFrame, text="Remove")
+remove.grid(row=1, sticky="N")
+
+browse = tk.Button(buttonFrame, text="Browse")
+browse.grid(row=2, sticky="N")
+scrollbar.grid(row=0, column=2, sticky="NSW")
 
 root.mainloop()
